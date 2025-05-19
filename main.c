@@ -5,6 +5,12 @@
 #include <stdbool.h>
 #include <unistd.h>
 
+
+void write_to_binary_file(const char *text_filename, const char *binary_filename);
+void compress_huffman(const char *binary_filename, const char *compressed_filename);
+void decompress_huffman(const char *compressed_filename);
+void print_file_sizes(const char *file1, const char *file2);
+
 // Function to get and validate input file name
 void get_and_validate_input_file(char *filename) {
     printf("Enter the name of the input file (e.g., input.txt): ");
