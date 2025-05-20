@@ -64,7 +64,10 @@ void after_validation_menu( char * filename) {
             sleep(1);
             exit(0);
         default:
+          system("clear");
             printf("Invalid choice. Please try again.\n");
+            sleep(1);
+            system("clear");
             after_validation_menu(filename);
     }
     
@@ -81,7 +84,54 @@ int main(void) {
     printf("The file is validated now, you can proceed for further operations.\n");
     printf("Press Enter to continue...\n");
     getchar(); // wait for Enter
+    system("clear");
     after_validation_menu(filename);
 
     return 0;
 }
+
+    void write_to_binary_file(const char *input_filename, const char *output_filename) {
+    FILE *in = fopen(input_filename, "r");
+    if (in == NULL) {
+        printf("Error opening input file '%s'\n", input_filename);
+        exit(EXIT_FAILURE);
+    }
+
+    FILE *out = fopen(output_filename, "wb");
+    if (out == NULL) {
+        printf("Error creating output file '%s'\n", output_filename);
+        fclose(in);
+        exit(EXIT_FAILURE);
+    }
+
+    int ch;
+    unsigned char buffer = 0;
+    int bit_count = 0;
+
+   while ((ch = fgetc(in)) != EOF) {
+    for (int i = 7; i >= 0; i--) {
+        char bit_char = ((ch >> i) & 1) ? '1' : '0';
+        fputc(bit_char, out);
+    }
+}
+
+   // Handle any remaining bits
+    if (bit_count > 0) {
+        buffer <<= (8 - bit_count); 
+        fwrite(&buffer, 1, 1, out);
+    }
+    // Printing size of the files
+    fseek(in, 0L, SEEK_END);
+    long input_size = ftell(in);
+    fseek(out, 0L, SEEK_END);
+    long output_size = ftell(out);
+
+    fclose(in);
+    fclose(out);
+    printf("  Successfully wrote content of '%s' to binary file '%s' as actual bits.\n", input_filename, output_filename);
+    printf(" Input File: %ld bytes (%ld bits)\n", input_size, input_size * 8);
+    printf(" Output File: %ld bytes (%ld bits)\n", output_size, output_size * 8);
+}
+
+
+ 
