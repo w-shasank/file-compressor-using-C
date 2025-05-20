@@ -82,16 +82,8 @@ void after_validation_menu( char * filename) {
     while ((ch = fgetc(binary_input)) != EOF)
      {
     frequencies[ch]++;
-   }
-fclose(binary_input);
-   
-   FILE *compressed_output = fopen(compressed_filename, "wb");
-    if (compressed_output == NULL) {
-        printf("Error creating compressed file '%s'\n", compressed_filename);
-        fclose(binary_input);
-        return 0;
-    }
-
+   } 
+   fclose(binary_input);
  }
 int main(void) {
     char filename[100];
