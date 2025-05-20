@@ -4,12 +4,7 @@
 #include <time.h>
 #include <stdbool.h>
 #include <unistd.h>
-
-
-void write_to_binary_file(const char *text_filename, const char *binary_filename);
-void compress_huffman(const char *binary_filename, const char *compressed_filename);
-void decompress_huffman(const char *compressed_filename);
-void print_file_sizes(const char *file1, const char *file2);
+#include "headerfile.h"
 
 // Function to get and validate input file name
 void get_and_validate_input_file(char *filename) {
@@ -47,7 +42,7 @@ void after_validation_menu( char * filename) {
             sleep(1);
             printf("Compressing file...\n");
             sleep(1);
-
+            compress_huffman("output.bin","compressed_ouput.bin");
             // Call the function to compress the file
             break;
         case 3:
@@ -72,6 +67,32 @@ void after_validation_menu( char * filename) {
     }
     
 }
+ void compress_huffman(const char *binary_filename, const char *compressed_filename) 
+ {
+    FILE *binary_input =fopen(binary_filename, "rb");
+    if (binary_input == NULL) {
+        printf("Error opening the binary file '%s'\n", binary_filename);
+        printf("Please create a binary ouput file first.\n");
+        printf("Returning to the lobby......\n");
+        sleep(2);
+        return  0;
+    }
+    int frequencies[256] = {0};
+    int ch;
+    while ((ch = fgetc(binary_input)) != EOF)
+     {
+    frequencies[ch]++;
+   }
+fclose(binary_input);
+   
+   FILE *compressed_output = fopen(compressed_filename, "wb");
+    if (compressed_output == NULL) {
+        printf("Error creating compressed file '%s'\n", compressed_filename);
+        fclose(binary_input);
+        return 0;
+    }
+
+ }
 int main(void) {
     char filename[100];
 
