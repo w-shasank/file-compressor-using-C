@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include "headerfile.h"
 
-// Inserting a node into the min-heap
+// Inserting a node into the huffman min-heap
 void insert_heap(MinHeap *heap, HuffmanNode *node) {
     int i = heap->size++;
     while (i && node->freq < heap->nodes[(i - 1) / 2]->freq) {
