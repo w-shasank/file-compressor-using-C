@@ -130,5 +130,84 @@ void generate_codes(HuffmanNode *root, char *code, int depth, char codes[256][25
     fclose(in);
     fclose(out);
     printf("Compression complete.\n");
+    printf("YOu can further decompress the file using the decompress_huffman function in the main menu.\n");
+     after_validation_menu("compressed_output.bin"); // Return to the menu after compression  
 }
+
+/// Decompressing the Huffman compressed file
+void decompress_huffman(const char *compressed_filename) {
+    FILE *in = fopen(compressed_filename, "rb");
+    if (!in) {
+        perror("Error opening compressed file");
+        exit(1);
+    }
+
+    // Step 1: Read frequency table
+    int frequencies[256] = {0};
+    fread(frequencies, sizeof(int), 256, in);
+
+    // Step 2: Rebuild Huffman Tree
+    MinHeap heap = {.size = 0};
+    for (int i = 0; i < 256; i++) {
+        if (frequencies[i]) {
+            HuffmanNode *node = malloc(sizeof(HuffmanNode));
+            node->data = i;
+            node->freq = frequencies[i];
+            node->left = node->right = NULL;
+            insert_heap(&heap, node);
+        }
+    }
+
+    while (heap.size > 1) {
+        HuffmanNode *left = extract_min(&heap);
+        HuffmanNode *right = extract_min(&heap);
+        HuffmanNode *merged = malloc(sizeof(HuffmanNode));
+        merged->data = 0;
+        merged->freq = left->freq + right->freq;
+        merged->left = left;
+        merged->right = right;
+        insert_heap(&heap, merged);
+    }
+
+    HuffmanNode *root = extract_min(&heap);
+
+    // Step 3: Decode bitstream and write original data
+    char output_filename[256];
+    snprintf(output_filename, sizeof(output_filename), "decompressed_output.txt");
+    FILE *out = fopen(output_filename, "wb");
+    if (!out) {
+        perror("Error opening output file");
+        exit(1);
+    }
+
+    int total_chars = 0;
+    for (int i = 0; i < 256; i++) {
+        total_chars += frequencies[i];
+    }
+
+    HuffmanNode *current = root;
+    int ch;
+    int decoded_chars = 0;
+
+    while ((ch = fgetc(in)) != EOF && decoded_chars < total_chars) {
+        for (int i = 7; i >= 0; i--) {
+            int bit = (ch >> i) & 1;
+            current = (bit == 0) ? current->left : current->right;
+
+            if (!current->left && !current->right) {
+                fputc(current->data, out);
+                current = root;
+                decoded_chars++;
+                if (decoded_chars == total_chars) {
+                    break;
+                }
+            }
+        }
+    }
+    fclose(in);
+    fclose(out);
+    printf("Decompression complete. Output written to '%s'\n", output_filename);
+    after_validation_menu("decompressed_output.txt"); // Return to the menu after decompression
+}
+
 

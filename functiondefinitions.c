@@ -55,8 +55,11 @@ void after_validation_menu( char * filename) {
             sleep(1);
             printf("Decompressing file...\n");
             sleep(1);
-
-             //add the function to decompress the file
+            decompress_huffman("compressed_output.bin");
+            printf("\nFile decompressed successfully to 'decompressed_output.txt'.\n");
+             decompress_huffman("compressed_output.bin");
+            printf("You can now view the decompressed file 'decompressed_output.txt'.\n");
+            break;
 
         case 4:
             printf("Exiting...\n");

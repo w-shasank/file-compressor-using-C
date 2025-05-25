@@ -26,5 +26,5 @@ void print_file_sizes(const char *file1, const char *file2);
 void insert_heap(MinHeap *heap, HuffmanNode *node);
 HuffmanNode* extract_min(MinHeap *heap);
 void generate_codes(HuffmanNode *root, char *code, int depth, char codes[256][256]);
-
+void decompress_huffman(const char *compressed_filename);
 #endif // HEADERFILE_H
