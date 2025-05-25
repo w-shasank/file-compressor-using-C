@@ -45,7 +45,8 @@ void after_validation_menu( char * filename) {
             printf("Compressing file...\n");
             sleep(1);
             compress_huffman("output.bin","compressed_ouput.bin");
-            // Call the function to compress the file
+            printf("File compressed successfully to 'compressed_output.bin'.\n");
+            after_validation_menu(filename); // Return to the menu after compression
             break;
         case 3:
             printf("Decompressing file...\n");
@@ -54,6 +55,7 @@ void after_validation_menu( char * filename) {
             sleep(1);
             printf("Decompressing file...\n");
             sleep(1);
+
              //add the function to decompress the file
 
         case 4:
@@ -81,7 +83,7 @@ void after_validation_menu( char * filename) {
     if (out == NULL) {
         printf("Error creating output file '%s'\n", output_filename);
         fclose(in);
-        exit(EXIT_FAILURE);
+        exit(0);
     }
 
     int ch;
