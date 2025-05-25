@@ -113,4 +113,9 @@ void after_validation_menu( char * filename) {
     printf("  Successfully wrote content of '%s' to binary file '%s' as actual bits.\n", input_filename, output_filename);
     printf(" Input File: %ld bytes (%ld bits)\n", input_size, input_size * 8);
     printf(" Output File: %ld bytes (%ld bits)\n", output_size, output_size * 8);
+    printf("\n\n\n");
+    printf("Press Enter to return to the menu...\n");
+    getchar(); 
+    system("clear");
+    after_validation_menu("input.txt"); 
 }
