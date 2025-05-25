@@ -5,7 +5,6 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include "headerfile.h"
-
 // Inserting a node into the huffman min-heap
 void insert_heap(MinHeap *heap, HuffmanNode *node) {
     int i = heap->size++;
