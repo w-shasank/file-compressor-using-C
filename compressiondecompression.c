@@ -70,7 +70,7 @@ void generate_codes(HuffmanNode *root, char *code, int depth, char codes[256][25
     }
     rewind(in);
 
-    //  Building Huffman Tree
+    //  Building Huffman Tree for huffman coding
     MinHeap heap = {.size = 0};
     for (int i = 0; i < 256; i++) {
         if (frequencies[i]) {
