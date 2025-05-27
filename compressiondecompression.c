@@ -62,7 +62,7 @@ void generate_codes(HuffmanNode *root, char *code, int depth, char codes[256][25
         exit(1);
     }
 
-    // Count frequency  for each byte
+    // Count frequency  for each byte in the input file
     int frequencies[256] = {0};
     int ch;
     while ((ch = fgetc(in)) != EOF) {
