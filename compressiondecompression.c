@@ -98,11 +98,11 @@ void generate_codes(HuffmanNode *root, char *code, int depth, char codes[256][25
     char buffer[256];
     generate_codes(root, buffer, 0, codes);
 
-    //  Write codes and compressed data to output
+    //  Write codes and compressed data to the output
     FILE *out = fopen(compressed_filename, "wb");
     if (!out) {
         perror("Error opening output file");
-        exit(1);
+        exit(0);
     }
 
     // Saving frequency table for decompression 
